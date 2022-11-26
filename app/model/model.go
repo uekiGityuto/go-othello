@@ -209,10 +209,49 @@ func (b *Board) refCell(address *Address) *Cell {
 }
 
 func (b *Board) Put(color Color, address *Address) error {
+	targets := b.search(color, address)
+	if len(targets) == 0 {
+		return fmt.Errorf(`"%s" cannot reverse opponent's stone`, address)
+	}
 	if err := b.refCell(address).Put(color); err != nil {
 		return fmt.Errorf("failed to put stone: %w", err)
 	}
+	for _, v := range targets {
+		b.refCell(v).Reverse()
+	}
 	return nil
+}
+
+func (b *Board) search(color Color, startPoint *Address) []*Address {
+	// メモ: クロージャーを再起関数にするためには、関数を定義する前にvarで型宣言する
+	var searchNext func(current *Address, list []*Address, next func(address *Address) *Address) []*Address
+	searchNext = func(current *Address, list []*Address, next func(address *Address) *Address) []*Address {
+		nextAddress := next(current)
+		if err := nextAddress.Valid(); err != nil {
+			return nil
+		}
+		nextCell := b.refCell(nextAddress)
+		if nextCell.IsNone() {
+			return nil
+		}
+		if (nextCell.IsBlack() && color == White) || (nextCell.IsWhite() && color == Black) {
+			list = append(list, nextAddress)
+			return searchNext(nextAddress, list, next)
+		}
+		return list
+	}
+
+	results := []*Address{}
+	results = append(results, searchNext(startPoint, []*Address{}, func(a *Address) *Address { return NewAddress(a.X(), a.Y()-1) })...)
+	results = append(results, searchNext(startPoint, []*Address{}, func(a *Address) *Address { return NewAddress(a.X(), a.Y()+1) })...)
+	results = append(results, searchNext(startPoint, []*Address{}, func(a *Address) *Address { return NewAddress(a.X()-1, a.Y()) })...)
+	results = append(results, searchNext(startPoint, []*Address{}, func(a *Address) *Address { return NewAddress(a.X()+1, a.Y()) })...)
+	results = append(results, searchNext(startPoint, []*Address{}, func(a *Address) *Address { return NewAddress(a.X()-1, a.Y()-1) })...)
+	results = append(results, searchNext(startPoint, []*Address{}, func(a *Address) *Address { return NewAddress(a.X()+1, a.Y()-1) })...)
+	results = append(results, searchNext(startPoint, []*Address{}, func(a *Address) *Address { return NewAddress(a.X()-1, a.Y()+1) })...)
+	results = append(results, searchNext(startPoint, []*Address{}, func(a *Address) *Address { return NewAddress(a.X()+1, a.Y()+1) })...)
+
+	return results
 }
 
 func (b *Board) CountWhite() int {

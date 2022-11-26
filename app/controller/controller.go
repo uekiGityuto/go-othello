@@ -84,6 +84,7 @@ func (c *Controller) Start() {
 		address := model.NewAddress(x, y)
 		if err := c.board.Put(c.turn, address); err != nil {
 			fmt.Println("そこには置けません。")
+			continue
 		}
 		c.changeTurn()
 	}
