@@ -41,6 +41,9 @@ make build
 ```
 
 ## デバッグ方法
+```
+cmd/othello-go/main.goをアクティブなタブにした状態でVS Codeのデバッグを実行する。
+```
 
 ## 実行方法
 ```
