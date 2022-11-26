@@ -1,0 +1,14 @@
+{
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnType": true,
+    "editor.acceptSuggestionOnEnter": "on",
+    "go.lintTool": "golangci-lint",
+    "go.lintFlags": [
+        "--fast"
+    ],
+    "gopls": {
+        "ui.semanticTokens": true,
+        "formatting.gofumpt": true
+    }
+}
