@@ -1,9 +1,13 @@
 .PHONY: run
 run: ## run app
-	go run cmd/othello-go/main.go
+	go run ./cmd/othello-go
 
 .PHONY: test
-run: ## run unit test
+test: ## run unit test
 	go test ./...
 
+.PHONY: build
+build: ## build app
+	mkdir -p ./build
+	go build -o ./build ./cmd/othello-go
 
