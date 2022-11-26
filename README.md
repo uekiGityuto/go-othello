@@ -11,7 +11,7 @@
 - 終了時に勝敗を判定
 
 ## 必要
-Go
+Go(1.19以上)
 
 ### エディタ
 VS Code
@@ -19,16 +19,17 @@ VS Code
 ### 拡張機能
 - [Go](https://marketplace.visualstudio.com/items?itemName=golang.Go)
 
-### ツール(go install)
-- [gofumpt](https://github.com/mvdan/gofumpt)
-- [gosec](https://github.com/securego/gosec)
-- [goimports](https://pkg.go.dev/golang.org/x/tools/cmd/goimports)
-- [gopls](https://github.com/golang/tools/blob/master/gopls/README.md)
+### ツール
+- [golangci-lint](https://golangci-lint.run/)
 
 ## 環境準備
 ```
 go mod tidy
 ```
+
+## 注意
+Macで作成したため、Windows環境では異なる点があります。
+具体的には、makeで実行出来ないため、Makefileで定義されているコマンドをそのまま実行して下さい。
 
 ## テスト方法
 ```
