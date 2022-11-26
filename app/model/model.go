@@ -224,6 +224,7 @@ func (b *Board) Put(color Color, address *Address) error {
 
 func (b *Board) search(color Color, startPoint *Address) []*Address {
 	// メモ: クロージャーを再起関数にするためには、関数を定義する前にvarで型宣言する
+	// メモ: クロージャーは無名関数で利用可能
 	var searchNext func(current *Address, list []*Address, next func(address *Address) *Address) []*Address
 	searchNext = func(current *Address, list []*Address, next func(address *Address) *Address) []*Address {
 		nextAddress := next(current)
