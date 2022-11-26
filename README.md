@@ -1,4 +1,4 @@
-# go-othello
+# othello-go
 
 ## 概要
 

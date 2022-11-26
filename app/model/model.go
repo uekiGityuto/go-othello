@@ -1,4 +1,4 @@
-package models
+package model
 
 import (
 	"fmt"
@@ -152,13 +152,15 @@ type Board struct {
 func NewBoard() (*Board, error) {
 	var board [][]*Cell
 	for i := 0; i < 8; i++ {
+		var row []*Cell
 		for j := 0; j < 8; j++ {
 			cell, err := NewCell(nil)
 			if err != nil {
 				return nil, fmt.Errorf("failed to create board: %w", err)
 			}
-			board[i] = append(board[i], cell)
+			row = append(row, cell)
 		}
+		board = append(board, row)
 	}
 	if err := board[3][3].Put(Black); err != nil {
 		return nil, fmt.Errorf("failed to create board: %w", err)
@@ -169,18 +171,19 @@ func NewBoard() (*Board, error) {
 	if err := board[4][3].Put(White); err != nil {
 		return nil, fmt.Errorf("failed to create board: %w", err)
 	}
-	if err := board[3][3].Put(White); err != nil {
+	if err := board[4][4].Put(Black); err != nil {
 		return nil, fmt.Errorf("failed to create board: %w", err)
 	}
 	return &Board{board: board}, nil
 }
 
 func (b *Board) Draw() {
-	fmt.Print("  0 1 2 3 4 5 6 7")
+	fmt.Println("  0 1 2 3 4 5 6 7")
 	for i := 0; i < 8; i++ {
 		fmt.Print(i)
 		for j := 0; j < 8; j++ {
-			b.Draw()
+			b.board[i][j].Draw()
 		}
+		fmt.Println("|")
 	}
 }
