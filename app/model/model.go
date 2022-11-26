@@ -27,6 +27,14 @@ func (c Color) GetReversed() Color {
 	}
 }
 
+func (c Color) String() string {
+	if c == Black {
+		return "黒"
+	} else {
+		return "白"
+	}
+}
+
 type Stone struct {
 	color Color
 }
@@ -145,6 +153,14 @@ func (a *Address) String() string {
 	return fmt.Sprintf("x: %d, y: %d", a.x, a.y)
 }
 
+func (a *Address) X() int {
+	return a.x
+}
+
+func (a *Address) Y() int {
+	return a.y
+}
+
 type Board struct {
 	board [][]*Cell
 }
@@ -186,4 +202,39 @@ func (b *Board) Draw() {
 		}
 		fmt.Println("|")
 	}
+}
+
+func (b *Board) refCell(address *Address) *Cell {
+	return b.board[address.Y()][address.X()]
+}
+
+func (b *Board) Put(color Color, address *Address) error {
+	if err := b.refCell(address).Put(color); err != nil {
+		return fmt.Errorf("failed to put stone: %w", err)
+	}
+	return nil
+}
+
+func (b *Board) CountWhite() int {
+	count := 0
+	for _, row := range b.board {
+		for _, cell := range row {
+			if cell.IsWhite() {
+				count++
+			}
+		}
+	}
+	return count
+}
+
+func (b *Board) CountBlack() int {
+	count := 0
+	for _, row := range b.board {
+		for _, cell := range row {
+			if cell.IsBlack() {
+				count++
+			}
+		}
+	}
+	return count
 }
