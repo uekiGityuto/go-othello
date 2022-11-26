@@ -33,6 +33,9 @@ go mod tidy
 ```
 
 ## テスト方法
+```
+make test
+```
 
 ## ビルド方法
 
@@ -40,5 +43,5 @@ go mod tidy
 
 ## 実行方法
 ```
-go run othello.go
+make run
 ```
