@@ -16,6 +16,9 @@ type Controller struct {
 }
 
 func New(turn model.Color) (*Controller, error) {
+	if err := turn.Valid(); err != nil {
+		return nil, fmt.Errorf("failed to create board: %w", err)
+	}
 	board, err := model.NewBoard()
 	if err != nil {
 		return nil, fmt.Errorf("failed to create board: %w", err)

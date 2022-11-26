@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/uekiGityuto/othello-go/app/controller"
 	"github.com/uekiGityuto/othello-go/app/model"
@@ -10,7 +11,8 @@ import (
 func main() {
 	ctrl, err := controller.New(model.White)
 	if err != nil {
-		fmt.Println(err.Error())
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
 	}
 	ctrl.Start()
 }
