@@ -64,6 +64,10 @@ func (c *Controller) Start() {
 		c.board.Draw()
 		fmt.Print("> ")
 		sc.Scan()
+		if err := sc.Err(); err != nil {
+			fmt.Println("入力の内容を読み取れませんでした。")
+			continue
+		}
 		input := sc.Text()
 		if input == "quit" {
 			break
